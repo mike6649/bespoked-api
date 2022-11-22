@@ -1,0 +1,450 @@
+openapi: 3.0.3
+info:
+  title: Bespoked Bikes - API
+  description: BeSpoked Bikes is looking to create a sales tracking application.  BeSpoked
+    is a high-end bicycle shop and each salesperson gets a commission for each bike
+    they sell.  They are introducing a new quarterly bonus based on sales as an incentive.
+  version: 1.0.11
+servers:
+- url: https://localhost
+tags:
+- name: salesperson
+  description: Everything about Salespersons
+- name: product
+  description: Products
+- name: customer
+  description: Customers
+- name: sale
+  description: Sales
+paths:
+  /salespersons:
+    get:
+      tags:
+      - salesperson
+      summary: Get list of salespersons
+      description: Get list of salespersons
+      operationId: get_salesperson
+      parameters:
+      - name: firstname
+        in: query
+        description: First Name
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Salesperson'
+                x-content-type: application/json
+      x-openapi-router-controller: swagger_server.controllers.salesperson_controller
+  /salesperson/{id}:
+    get:
+      tags:
+      - salesperson
+      summary: Get salesperson by ID
+      operationId: get_salesperson_by_id
+      parameters:
+      - name: id
+        in: path
+        description: Salesperson ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Salesperson'
+        "404":
+          description: Not found
+      x-openapi-router-controller: swagger_server.controllers.salesperson_controller
+    post:
+      tags:
+      - salesperson
+      summary: Update or create salesperson
+      operationId: update_sales_person
+      parameters:
+      - name: id
+        in: path
+        description: Salesperson ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: salesperson object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Salesperson'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Salesperson'
+      x-openapi-router-controller: swagger_server.controllers.salesperson_controller
+  /products:
+    get:
+      tags:
+      - product
+      summary: Get list of products
+      description: Get list of products
+      operationId: get_products
+      parameters:
+      - name: purchase_price
+        in: query
+        description: Purchase Price
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+                x-content-type: application/json
+      x-openapi-router-controller: swagger_server.controllers.product_controller
+  /product/{id}:
+    get:
+      tags:
+      - product
+      summary: Get product by ID
+      operationId: get_product_by_id
+      parameters:
+      - name: id
+        in: path
+        description: Product ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        "404":
+          description: Not found
+      x-openapi-router-controller: swagger_server.controllers.product_controller
+    post:
+      tags:
+      - product
+      summary: Update or create product
+      operationId: update_product
+      parameters:
+      - name: id
+        in: path
+        description: Product ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Product object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+      x-openapi-router-controller: swagger_server.controllers.product_controller
+  /customers:
+    get:
+      tags:
+      - customer
+      summary: Get list of customers
+      description: Get list of customers
+      operationId: get_customers
+      parameters:
+      - name: firstname
+        in: query
+        description: First Name
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+                x-content-type: application/json
+      x-openapi-router-controller: swagger_server.controllers.customer_controller
+  /customer/{id}:
+    get:
+      tags:
+      - customer
+      summary: Get customer by ID
+      operationId: get_customer_by_id
+      parameters:
+      - name: id
+        in: path
+        description: Customer ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        "404":
+          description: Not found
+      x-openapi-router-controller: swagger_server.controllers.customer_controller
+    post:
+      tags:
+      - customer
+      summary: Update or create Customer
+      operationId: update_customer
+      parameters:
+      - name: id
+        in: path
+        description: Customer ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Customer object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+      x-openapi-router-controller: swagger_server.controllers.customer_controller
+  /sales:
+    get:
+      tags:
+      - sale
+      summary: Get list of sales
+      description: Get list of sales
+      operationId: get_sales
+      parameters:
+      - name: customerID
+        in: query
+        description: Customer ID
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sale'
+                x-content-type: application/json
+      x-openapi-router-controller: swagger_server.controllers.sale_controller
+  /sale/{id}:
+    get:
+      tags:
+      - sale
+      summary: Get sale by ID
+      operationId: get_sale_by_id
+      parameters:
+      - name: id
+        in: path
+        description: Customer ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sale'
+        "404":
+          description: Not found
+      x-openapi-router-controller: swagger_server.controllers.sale_controller
+  /sale:
+    post:
+      tags:
+      - sale
+      summary: Create Sale
+      operationId: update_sale
+      requestBody:
+        description: Sale object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sale'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sale'
+      x-openapi-router-controller: swagger_server.controllers.sale_controller
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+        manufacturer:
+          type: string
+        style:
+          type: string
+        purchase_price:
+          type: string
+        sale_price:
+          type: string
+        quantity:
+          type: integer
+          format: int64
+        commission_pct:
+          type: string
+      example:
+        commission_pct: commission_pct
+        quantity: 6
+        purchase_price: purchase_price
+        style: style
+        id: 0
+        sale_price: sale_price
+        manufacturer: manufacturer
+    Salesperson:
+      type: object
+      properties:
+        id:
+          type: integer
+        firstname:
+          type: string
+          example: fehguy
+        lastname:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+        begindate:
+          type: string
+          format: date
+        enddate:
+          type: string
+          format: date
+        manager:
+          type: string
+      example:
+        firstname: fehguy
+        address: address
+        begindate: 2000-01-23
+        enddate: 2000-01-23
+        manager: manager
+        phone: phone
+        id: 0
+        lastname: lastname
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+        firstname:
+          type: string
+          example: fehguy
+        lastname:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+        startdate:
+          type: string
+          format: date
+      example:
+        firstname: fehguy
+        address: address
+        phone: phone
+        id: 0
+        startdate: 2000-01-23
+        lastname: lastname
+      xml:
+        name: customer
+    Sale:
+      type: object
+      properties:
+        id:
+          type: integer
+        customer_id:
+          type: integer
+        salesperson_id:
+          type: integer
+        sales_date:
+          type: string
+          format: date
+      example:
+        salesperson_id: 1
+        sales_date: 2000-01-23
+        id: 0
+        customer_id: 6
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://petstore3.swagger.io/oauth/authorize
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets
+      x-tokenInfoFunc: swagger_server.controllers.authorization_controller.check_petstore_auth
+      x-scopeValidateFunc: swagger_server.controllers.authorization_controller.validate_scope_petstore_auth
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
+      x-apikeyInfoFunc: swagger_server.controllers.authorization_controller.check_api_key
+
