@@ -3,6 +3,8 @@ import six
 
 from swagger_server.models.customer import Customer  # noqa: E501
 from swagger_server import util
+from swagger_server.models import database
+from swagger_server.models.database import db
 
 
 def get_customer_by_id(id):  # noqa: E501
@@ -15,7 +17,8 @@ def get_customer_by_id(id):  # noqa: E501
 
     :rtype: Customer
     """
-    return 'do some magic!'
+
+    return "customer!"
 
 
 def get_customers(firstname=None):  # noqa: E501

@@ -1,15 +1,10 @@
 #!/usr/bin/env python3
-
 import connexion
-
-from swagger_server import encoder
+from swagger_server import encoder, create_app
 
 
 def main():
-    app = connexion.App(__name__, specification_dir='./swagger/')
-    app.app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://bespoked:{your_password}@bespoked-db.postgres.database.azure.com/postgres?sslmode=require'
-    app.app.json_encoder = encoder.JSONEncoder
-    app.add_api('swagger.yaml', arguments={'title': 'Bespoked Bikes - API'}, pythonic_params=True)
+    app = create_app()
     app.run(port=8080)
 
 

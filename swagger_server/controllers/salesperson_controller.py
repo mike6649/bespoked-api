@@ -3,6 +3,8 @@ import six
 
 from swagger_server.models.salesperson import Salesperson  # noqa: E501
 from swagger_server import util
+from swagger_server.models import database
+from swagger_server import db
 
 
 def get_salesperson(firstname=None):  # noqa: E501
@@ -15,7 +17,13 @@ def get_salesperson(firstname=None):  # noqa: E501
 
     :rtype: List[Salesperson]
     """
-    return 'do some magic!'
+
+    salespersons = []
+
+    for person in db.session.query(database.Salesperson):
+        salespersons.append(person.to_model())
+
+    return salespersons
 
 
 def get_salesperson_by_id(id):  # noqa: E501

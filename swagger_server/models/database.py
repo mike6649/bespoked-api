@@ -1,10 +1,9 @@
 from sqlalchemy import Column, Integer, String, Numeric, BigInteger, Date, TIMESTAMP
-from sqlalchemy.ext.declarative import declarative_base
+from swagger_server import models
+from swagger_server import db
 
-Base = declarative_base()
 
-
-class Product(Base):
+class Product(db.Model):
     __tablename__ = 'product'
     id = Column(Integer, primary_key=True)
     name = Column(String)
@@ -16,7 +15,7 @@ class Product(Base):
     commission_pct = Column(Numeric(5, 2))
 
 
-class Salesperson(Base):
+class Salesperson(db.Model):
     __tablename__ = 'salesperson'
     id = Column(Integer, primary_key=True)
     firstname = Column(String)
@@ -25,10 +24,23 @@ class Salesperson(Base):
     phone = Column(String)
     begin_date = Column(Date)
     end_date = Column(Date)
-    manager_id = Column(String)
+    manager = Column(String)
+
+    # noinspection PyTypeChecker
+    def to_model(self):
+        return models.Salesperson(
+            id=self.id,
+            firstname=self.firstname,
+            lastname=self.lastname,
+            address=self.address,
+            phone=self.phone,
+            begindate=self.begin_date,
+            enddate=self.end_date,
+            manager=self.manager,
+        )
 
 
-class Customer(Base):
+class Customer(db.Model):
     __tablename__ = 'customer'
     id = Column(Integer, primary_key=True)
     firstname = Column(String)
@@ -37,7 +49,19 @@ class Customer(Base):
     phone = Column(String)
     begin_date = Column(Date)
 
-class Sale(Base):
+    # noinspection PyTypeChecker
+    def to_model(self):
+        return models.Customer(
+            id=self.id,
+            firstname=self.firstname,
+            lastname=self.lastname,
+            address=self.address,
+            phone=self.phone,
+            startdate=self.begin_date,
+        )
+
+
+class Sale(db.Model):
     __tablename__ = 'sale'
     id = Column(Integer, primary_key=True)
     product_id = Column(Integer)
@@ -45,7 +69,16 @@ class Sale(Base):
     sale_time = Column(TIMESTAMP)
     quantity = Column(Integer)
 
-class Discount(Base):
+    # noinspection PyTypeChecker
+    def to_model(self):
+        return models.Sale(
+            id=self.id,
+            salesperson_id=self.salesperson_id,
+            sales_date=self.sale_time,
+        )
+
+
+class Discount(db.Model):
     __tablename__ = 'discount'
     id = Column(Integer, primary_key=True)
     product_id = Column(Integer)
