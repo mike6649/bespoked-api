@@ -14,7 +14,7 @@ class Salesperson(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: int=None, firstname: str=None, lastname: str=None, address: str=None, phone: str=None, begindate: date=None, enddate: date=None, manager: str=None):  # noqa: E501
+    def __init__(self, id: int=None, firstname: str=None, lastname: str=None, address: str=None, phone: str=None, begin_date: date=None, end_date: date=None, manager: str=None):  # noqa: E501
         """Salesperson - a model defined in Swagger
 
         :param id: The id of this Salesperson.  # noqa: E501
@@ -27,10 +27,10 @@ class Salesperson(Model):
         :type address: str
         :param phone: The phone of this Salesperson.  # noqa: E501
         :type phone: str
-        :param begindate: The begindate of this Salesperson.  # noqa: E501
-        :type begindate: date
-        :param enddate: The enddate of this Salesperson.  # noqa: E501
-        :type enddate: date
+        :param begin_date: The begin_date of this Salesperson.  # noqa: E501
+        :type begin_date: date
+        :param end_date: The end_date of this Salesperson.  # noqa: E501
+        :type end_date: date
         :param manager: The manager of this Salesperson.  # noqa: E501
         :type manager: str
         """
@@ -40,8 +40,8 @@ class Salesperson(Model):
             'lastname': str,
             'address': str,
             'phone': str,
-            'begindate': date,
-            'enddate': date,
+            'begin_date': date,
+            'end_date': date,
             'manager': str
         }
 
@@ -51,8 +51,8 @@ class Salesperson(Model):
             'lastname': 'lastname',
             'address': 'address',
             'phone': 'phone',
-            'begindate': 'begindate',
-            'enddate': 'enddate',
+            'begin_date': 'begin_date',
+            'end_date': 'end_date',
             'manager': 'manager'
         }
         self._id = id
@@ -60,8 +60,8 @@ class Salesperson(Model):
         self._lastname = lastname
         self._address = address
         self._phone = phone
-        self._begindate = begindate
-        self._enddate = enddate
+        self._begin_date = begin_date
+        self._end_date = end_date
         self._manager = manager
 
     @classmethod
@@ -181,46 +181,46 @@ class Salesperson(Model):
         self._phone = phone
 
     @property
-    def begindate(self) -> date:
-        """Gets the begindate of this Salesperson.
+    def begin_date(self) -> date:
+        """Gets the begin_date of this Salesperson.
 
 
-        :return: The begindate of this Salesperson.
+        :return: The begin_date of this Salesperson.
         :rtype: date
         """
-        return self._begindate
+        return self._begin_date
 
-    @begindate.setter
-    def begindate(self, begindate: date):
-        """Sets the begindate of this Salesperson.
+    @begin_date.setter
+    def begin_date(self, begin_date: date):
+        """Sets the begin_date of this Salesperson.
 
 
-        :param begindate: The begindate of this Salesperson.
-        :type begindate: date
+        :param begin_date: The begin_date of this Salesperson.
+        :type begin_date: date
         """
 
-        self._begindate = begindate
+        self._begin_date = begin_date
 
     @property
-    def enddate(self) -> date:
-        """Gets the enddate of this Salesperson.
+    def end_date(self) -> date:
+        """Gets the end_date of this Salesperson.
 
 
-        :return: The enddate of this Salesperson.
+        :return: The end_date of this Salesperson.
         :rtype: date
         """
-        return self._enddate
+        return self._end_date
 
-    @enddate.setter
-    def enddate(self, enddate: date):
-        """Sets the enddate of this Salesperson.
+    @end_date.setter
+    def end_date(self, end_date: date):
+        """Sets the end_date of this Salesperson.
 
 
-        :param enddate: The enddate of this Salesperson.
-        :type enddate: date
+        :param end_date: The end_date of this Salesperson.
+        :type end_date: date
         """
 
-        self._enddate = enddate
+        self._end_date = end_date
 
     @property
     def manager(self) -> str:

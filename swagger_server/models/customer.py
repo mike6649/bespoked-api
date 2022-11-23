@@ -14,7 +14,7 @@ class Customer(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: int=None, firstname: str=None, lastname: str=None, address: str=None, phone: str=None, startdate: date=None):  # noqa: E501
+    def __init__(self, id: int=None, firstname: str=None, lastname: str=None, address: str=None, phone: str=None, begin_date: date=None):  # noqa: E501
         """Customer - a model defined in Swagger
 
         :param id: The id of this Customer.  # noqa: E501
@@ -27,8 +27,8 @@ class Customer(Model):
         :type address: str
         :param phone: The phone of this Customer.  # noqa: E501
         :type phone: str
-        :param startdate: The startdate of this Customer.  # noqa: E501
-        :type startdate: date
+        :param begin_date: The begin_date of this Customer.  # noqa: E501
+        :type begin_date: date
         """
         self.swagger_types = {
             'id': int,
@@ -36,7 +36,7 @@ class Customer(Model):
             'lastname': str,
             'address': str,
             'phone': str,
-            'startdate': date
+            'begin_date': date
         }
 
         self.attribute_map = {
@@ -45,14 +45,14 @@ class Customer(Model):
             'lastname': 'lastname',
             'address': 'address',
             'phone': 'phone',
-            'startdate': 'startdate'
+            'begin_date': 'begin_date'
         }
         self._id = id
         self._firstname = firstname
         self._lastname = lastname
         self._address = address
         self._phone = phone
-        self._startdate = startdate
+        self._begin_date = begin_date
 
     @classmethod
     def from_dict(cls, dikt) -> 'Customer':
@@ -171,22 +171,22 @@ class Customer(Model):
         self._phone = phone
 
     @property
-    def startdate(self) -> date:
-        """Gets the startdate of this Customer.
+    def begin_date(self) -> date:
+        """Gets the begin_date of this Customer.
 
 
-        :return: The startdate of this Customer.
+        :return: The begin_date of this Customer.
         :rtype: date
         """
-        return self._startdate
+        return self._begin_date
 
-    @startdate.setter
-    def startdate(self, startdate: date):
-        """Sets the startdate of this Customer.
+    @begin_date.setter
+    def begin_date(self, begin_date: date):
+        """Sets the begin_date of this Customer.
 
 
-        :param startdate: The startdate of this Customer.
-        :type startdate: date
+        :param begin_date: The begin_date of this Customer.
+        :type begin_date: date
         """
 
-        self._startdate = startdate
+        self._begin_date = begin_date

@@ -14,35 +14,45 @@ class Sale(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: int=None, customer_id: int=None, salesperson_id: int=None, sales_date: date=None):  # noqa: E501
+    def __init__(self, id: int=None, product_id: int=None, customer_id: int=None, salesperson_id: int=None, sale_date: date=None, quantity: int=None):  # noqa: E501
         """Sale - a model defined in Swagger
 
         :param id: The id of this Sale.  # noqa: E501
         :type id: int
+        :param product_id: The product_id of this Sale.  # noqa: E501
+        :type product_id: int
         :param customer_id: The customer_id of this Sale.  # noqa: E501
         :type customer_id: int
         :param salesperson_id: The salesperson_id of this Sale.  # noqa: E501
         :type salesperson_id: int
-        :param sales_date: The sales_date of this Sale.  # noqa: E501
-        :type sales_date: date
+        :param sale_date: The sale_date of this Sale.  # noqa: E501
+        :type sale_date: date
+        :param quantity: The quantity of this Sale.  # noqa: E501
+        :type quantity: int
         """
         self.swagger_types = {
             'id': int,
+            'product_id': int,
             'customer_id': int,
             'salesperson_id': int,
-            'sales_date': date
+            'sale_date': date,
+            'quantity': int
         }
 
         self.attribute_map = {
             'id': 'id',
+            'product_id': 'product_id',
             'customer_id': 'customer_id',
             'salesperson_id': 'salesperson_id',
-            'sales_date': 'sales_date'
+            'sale_date': 'sale_date',
+            'quantity': 'quantity'
         }
         self._id = id
+        self._product_id = product_id
         self._customer_id = customer_id
         self._salesperson_id = salesperson_id
-        self._sales_date = sales_date
+        self._sale_date = sale_date
+        self._quantity = quantity
 
     @classmethod
     def from_dict(cls, dikt) -> 'Sale':
@@ -75,6 +85,27 @@ class Sale(Model):
         """
 
         self._id = id
+
+    @property
+    def product_id(self) -> int:
+        """Gets the product_id of this Sale.
+
+
+        :return: The product_id of this Sale.
+        :rtype: int
+        """
+        return self._product_id
+
+    @product_id.setter
+    def product_id(self, product_id: int):
+        """Sets the product_id of this Sale.
+
+
+        :param product_id: The product_id of this Sale.
+        :type product_id: int
+        """
+
+        self._product_id = product_id
 
     @property
     def customer_id(self) -> int:
@@ -119,22 +150,43 @@ class Sale(Model):
         self._salesperson_id = salesperson_id
 
     @property
-    def sales_date(self) -> date:
-        """Gets the sales_date of this Sale.
+    def sale_date(self) -> date:
+        """Gets the sale_date of this Sale.
 
 
-        :return: The sales_date of this Sale.
+        :return: The sale_date of this Sale.
         :rtype: date
         """
-        return self._sales_date
+        return self._sale_date
 
-    @sales_date.setter
-    def sales_date(self, sales_date: date):
-        """Sets the sales_date of this Sale.
+    @sale_date.setter
+    def sale_date(self, sale_date: date):
+        """Sets the sale_date of this Sale.
 
 
-        :param sales_date: The sales_date of this Sale.
-        :type sales_date: date
+        :param sale_date: The sale_date of this Sale.
+        :type sale_date: date
         """
 
-        self._sales_date = sales_date
+        self._sale_date = sale_date
+
+    @property
+    def quantity(self) -> int:
+        """Gets the quantity of this Sale.
+
+
+        :return: The quantity of this Sale.
+        :rtype: int
+        """
+        return self._quantity
+
+    @quantity.setter
+    def quantity(self, quantity: int):
+        """Sets the quantity of this Sale.
+
+
+        :param quantity: The quantity of this Sale.
+        :type quantity: int
+        """
+
+        self._quantity = quantity

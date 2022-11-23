@@ -281,7 +281,7 @@ paths:
       tags:
       - sale
       summary: Create Sale
-      operationId: update_sale
+      operationId: create_sale
       requestBody:
         description: Sale object
         content:
@@ -303,6 +303,8 @@ components:
       properties:
         id:
           type: integer
+        name:
+          type: string
         manufacturer:
           type: string
         style:
@@ -319,6 +321,7 @@ components:
       example:
         commission_pct: commission_pct
         quantity: 6
+        name: name
         purchase_price: purchase_price
         style: style
         id: 0
@@ -338,21 +341,22 @@ components:
           type: string
         phone:
           type: string
-        begindate:
+        begin_date:
           type: string
           format: date
-        enddate:
+        end_date:
           type: string
           format: date
+          nullable: true
         manager:
           type: string
       example:
+        end_date: 2000-01-23
         firstname: fehguy
         address: address
-        begindate: 2000-01-23
-        enddate: 2000-01-23
         manager: manager
         phone: phone
+        begin_date: 2000-01-23
         id: 0
         lastname: lastname
     Customer:
@@ -369,15 +373,15 @@ components:
           type: string
         phone:
           type: string
-        startdate:
+        begin_date:
           type: string
           format: date
       example:
         firstname: fehguy
         address: address
         phone: phone
+        begin_date: 2000-01-23
         id: 0
-        startdate: 2000-01-23
         lastname: lastname
       xml:
         name: customer

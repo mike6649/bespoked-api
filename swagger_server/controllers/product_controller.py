@@ -21,7 +21,7 @@ def get_product_by_id(id_):  # noqa: E501
     product = db.session.query(database.Product).filter_by(id=id_).scalar()
     if product is None:
         return {}, 404
-    return product.to_dict()
+    return product.to_model()
 
 
 def get_products():  # noqa: E501
@@ -32,7 +32,9 @@ def get_products():  # noqa: E501
 
     :rtype: List[Product]
     """
-    return 'do some magic!'
+    filters = []  # TODO
+    query = db.session.query(database.Product).filter(*filters)
+    return [p.to_model() for p in query]
 
 
 def update_product(body=None):  # noqa: E501
@@ -47,4 +49,10 @@ def update_product(body=None):  # noqa: E501
     """
     if connexion.request.is_json:
         body = Product.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    if not body:
+        return {}, 400
+    product = database.Product.from_model(body)
+    db.session.merge(product)
+    db.session.commit()
+    return product.to_model()
+

@@ -19,7 +19,14 @@ class Product(db.Model):
     # noinspection PyTypeChecker
     def to_model(self):
         return models.Product(
-         **{k: str(v) for k, v in self.to_dict().items()}
+            id=self.id,
+            name=self.name,
+            manufacturer=self.manufacturer,
+            style=self.style,
+            purchase_price=str(self.purchase_price),
+            sale_price=str(self.sale_price),
+            quantity=self.quantity,
+            commission_pct=str(self.commission_pct),
         )
 
     @classmethod
@@ -57,8 +64,8 @@ class Salesperson(db.Model):
         person.lastname = salesperson.lastname
         person.address = salesperson.address
         person.phone = salesperson.phone
-        person.begin_date = salesperson.begindate
-        person.end_date = salesperson.enddate
+        person.begin_date = salesperson.begin_date
+        person.end_date = salesperson.end_date
         person.manager = salesperson.manager
         return person
 
@@ -70,8 +77,8 @@ class Salesperson(db.Model):
             lastname=self.lastname,
             address=self.address,
             phone=self.phone,
-            begindate=self.begin_date,
-            enddate=self.end_date,
+            begin_date=self.begin_date,
+            end_date=self.end_date,
             manager=self.manager,
         )
 
@@ -93,16 +100,29 @@ class Customer(db.Model):
             lastname=self.lastname,
             address=self.address,
             phone=self.phone,
-            startdate=self.begin_date,
+            begin_date=self.begin_date,
         )
+
+    @classmethod
+    def from_model(cls, model: models.Customer):
+        customer = cls()
+        if model.id is not None:
+            customer.id = model.id
+        customer.firstname = model.firstname
+        customer.lastname = model.lastname
+        customer.address = model.address
+        customer.phone = model.phone
+        customer.begin_date = model.begin_date
+        return customer
 
 
 class Sale(db.Model):
     __tablename__ = 'sale'
     id = Column(Integer, primary_key=True, autoincrement=True)
     product_id = Column(Integer)
+    customer_id = Column(Integer)
     salesperson_id = Column(Integer)
-    sale_time = Column(TIMESTAMP)
+    sale_date = Column(Date)
     quantity = Column(Integer)
 
     # noinspection PyTypeChecker
@@ -110,8 +130,23 @@ class Sale(db.Model):
         return models.Sale(
             id=self.id,
             salesperson_id=self.salesperson_id,
-            sales_date=self.sale_time,
+            sale_date=self.sale_date,
+            quantity=self.quantity,
+            product_id=self.product_id,
+            customer_id=self.customer_id,
         )
+
+    @classmethod
+    def from_model(cls, model: models.Sale):
+        sale = cls()
+        if model.id is not None:
+            sale.id = model.id
+        sale.salesperson_id = model.salesperson_id
+        sale.sale_date = model.sale_date
+        sale.quantity = model.quantity
+        sale.product_id = model.product_id
+        sale.customer_id = model.customer_id
+        return sale
 
 
 class Discount(db.Model):

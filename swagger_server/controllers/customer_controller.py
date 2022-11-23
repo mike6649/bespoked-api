@@ -5,19 +5,23 @@ from swagger_server.models.customer import Customer  # noqa: E501
 from swagger_server import util
 from swagger_server.models import database
 from swagger_server.models.database import db
+from flask import current_app as app
 
 
-def get_customer_by_id(id):  # noqa: E501
+def get_customer_by_id(id_):  # noqa: E501
     """Get customer by ID
 
      # noqa: E501
 
-    :param id: Customer ID
-    :type id: str
+    :param id_: Customer ID
+    :type id_: str
 
     :rtype: Customer
     """
-    return 'do some magic!'
+    customer = db.session.query(database.Customer).filter_by(id=id_).scalar()
+    if customer is None:
+        return {}, 404
+    return customer.to_model()
 
 
 def get_customers(firstname=None):  # noqa: E501
@@ -30,7 +34,11 @@ def get_customers(firstname=None):  # noqa: E501
 
     :rtype: List[Customer]
     """
-    return 'do some magic!'
+    filters = []
+    if firstname:
+        filters.append(database.Customer.firstname == firstname)
+    query = db.session.query(database.Customer).filter(*filters)
+    return [p.to_model() for p in query]
 
 
 def update_customer(body=None):  # noqa: E501
@@ -45,4 +53,9 @@ def update_customer(body=None):  # noqa: E501
     """
     if connexion.request.is_json:
         body = Customer.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    if not body:
+        return {}, 400
+    customer = database.Customer.from_model(body)
+    db.session.merge(customer)
+    db.session.commit()
+    return customer.to_model()
