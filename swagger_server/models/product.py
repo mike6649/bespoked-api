@@ -14,11 +14,13 @@ class Product(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: int=None, manufacturer: str=None, style: str=None, purchase_price: str=None, sale_price: str=None, quantity: int=None, commission_pct: str=None):  # noqa: E501
+    def __init__(self, id: int=None, name: str=None, manufacturer: str=None, style: str=None, purchase_price: str=None, sale_price: str=None, quantity: int=None, commission_pct: str=None):  # noqa: E501
         """Product - a model defined in Swagger
 
         :param id: The id of this Product.  # noqa: E501
         :type id: int
+        :param name: The name of this Product.  # noqa: E501
+        :type name: str
         :param manufacturer: The manufacturer of this Product.  # noqa: E501
         :type manufacturer: str
         :param style: The style of this Product.  # noqa: E501
@@ -34,6 +36,7 @@ class Product(Model):
         """
         self.swagger_types = {
             'id': int,
+            'name': str,
             'manufacturer': str,
             'style': str,
             'purchase_price': str,
@@ -44,6 +47,7 @@ class Product(Model):
 
         self.attribute_map = {
             'id': 'id',
+            'name': 'name',
             'manufacturer': 'manufacturer',
             'style': 'style',
             'purchase_price': 'purchase_price',
@@ -52,6 +56,7 @@ class Product(Model):
             'commission_pct': 'commission_pct'
         }
         self._id = id
+        self._name = name
         self._manufacturer = manufacturer
         self._style = style
         self._purchase_price = purchase_price
@@ -90,6 +95,27 @@ class Product(Model):
         """
 
         self._id = id
+
+    @property
+    def name(self) -> str:
+        """Gets the name of this Product.
+
+
+        :return: The name of this Product.
+        :rtype: str
+        """
+        return self._name
+
+    @name.setter
+    def name(self, name: str):
+        """Sets the name of this Product.
+
+
+        :param name: The name of this Product.
+        :type name: str
+        """
+
+        self._name = name
 
     @property
     def manufacturer(self) -> str:

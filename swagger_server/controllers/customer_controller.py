@@ -17,8 +17,7 @@ def get_customer_by_id(id):  # noqa: E501
 
     :rtype: Customer
     """
-
-    return "customer!"
+    return 'do some magic!'
 
 
 def get_customers(firstname=None):  # noqa: E501
@@ -34,13 +33,11 @@ def get_customers(firstname=None):  # noqa: E501
     return 'do some magic!'
 
 
-def update_customer(id, body=None):  # noqa: E501
+def update_customer(body=None):  # noqa: E501
     """Update or create Customer
 
      # noqa: E501
 
-    :param id: Customer ID
-    :type id: str
     :param body: Customer object
     :type body: dict | bytes
 

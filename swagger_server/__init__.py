@@ -1,7 +1,6 @@
 import logging
 
 import connexion
-from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 from swagger_server import encoder
@@ -11,6 +10,7 @@ db = SQLAlchemy()
 
 def create_app():
     """Construct the core application."""
+    logging.basicConfig(level=logging.DEBUG)
     app = connexion.App(__name__, specification_dir='./swagger/')
     app.app.config.from_envvar("CONFIG")
     print(app.app.config)

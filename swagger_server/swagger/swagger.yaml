@@ -6,7 +6,7 @@ info:
     they sell.  They are introducing a new quarterly bonus based on sales as an incentive.
   version: 1.0.11
 servers:
-- url: https://localhost
+- url: https://localhost:8080
 tags:
 - name: salesperson
   description: Everything about Salespersons
@@ -23,7 +23,7 @@ paths:
       - salesperson
       summary: Get list of salespersons
       description: Get list of salespersons
-      operationId: get_salesperson
+      operationId: get_salespersons
       parameters:
       - name: firstname
         in: query
@@ -69,20 +69,12 @@ paths:
         "404":
           description: Not found
       x-openapi-router-controller: swagger_server.controllers.salesperson_controller
+  /salesperson:
     post:
       tags:
       - salesperson
       summary: Update or create salesperson
       operationId: update_sales_person
-      parameters:
-      - name: id
-        in: path
-        description: Salesperson ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
       requestBody:
         description: salesperson object
         content:
@@ -104,15 +96,6 @@ paths:
       summary: Get list of products
       description: Get list of products
       operationId: get_products
-      parameters:
-      - name: purchase_price
-        in: query
-        description: Purchase Price
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
       responses:
         "200":
           description: Successful operation
@@ -149,20 +132,12 @@ paths:
         "404":
           description: Not found
       x-openapi-router-controller: swagger_server.controllers.product_controller
+  /product:
     post:
       tags:
       - product
       summary: Update or create product
       operationId: update_product
-      parameters:
-      - name: id
-        in: path
-        description: Product ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
       requestBody:
         description: Product object
         content:
@@ -229,20 +204,12 @@ paths:
         "404":
           description: Not found
       x-openapi-router-controller: swagger_server.controllers.customer_controller
+  /customer:
     post:
       tags:
       - customer
       summary: Update or create Customer
       operationId: update_customer
-      parameters:
-      - name: id
-        in: path
-        description: Customer ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
       requestBody:
         description: Customer object
         content:
@@ -419,6 +386,8 @@ components:
       properties:
         id:
           type: integer
+        product_id:
+          type: integer
         customer_id:
           type: integer
         salesperson_id:
@@ -426,25 +395,13 @@ components:
         sales_date:
           type: string
           format: date
+        quantity:
+          type: integer
       example:
-        salesperson_id: 1
+        salesperson_id: 5
+        quantity: 5
         sales_date: 2000-01-23
+        product_id: 6
         id: 0
-        customer_id: 6
-  securitySchemes:
-    petstore_auth:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: https://petstore3.swagger.io/oauth/authorize
-          scopes:
-            write:pets: modify pets in your account
-            read:pets: read your pets
-      x-tokenInfoFunc: swagger_server.controllers.authorization_controller.check_petstore_auth
-      x-scopeValidateFunc: swagger_server.controllers.authorization_controller.validate_scope_petstore_auth
-    api_key:
-      type: apiKey
-      name: api_key
-      in: header
-      x-apikeyInfoFunc: swagger_server.controllers.authorization_controller.check_api_key
+        customer_id: 1
 
