@@ -2,6 +2,9 @@ import datetime
 
 import six
 import typing
+
+from dateutil.parser import parse
+
 from swagger_server import type_util
 
 
@@ -67,11 +70,8 @@ def deserialize_date(string):
     :return: date.
     :rtype: date
     """
-    try:
-        from dateutil.parser import parse
-        return parse(string).date()
-    except ImportError:
-        return string
+    return datetime.datetime.strptime(string, "%Y-%m-%d").date()
+    # return parse(string, parserinfo=parserinfo(yearfirst=True), ignoretz=True, date_formats=["%Y-%m-%d"])
 
 
 def deserialize_datetime(string):
@@ -84,11 +84,7 @@ def deserialize_datetime(string):
     :return: datetime.
     :rtype: datetime
     """
-    try:
-        from dateutil.parser import parse
-        return parse(string)
-    except ImportError:
-        return string
+    return parse(string)
 
 
 def deserialize_model(data, klass):

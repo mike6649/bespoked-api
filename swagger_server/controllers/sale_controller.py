@@ -57,22 +57,25 @@ def create_sale(body=None):  # noqa: E501
 
     :rtype: Sale
     """
-    if connexion.request.is_json:
-        body = Sale.from_dict(connexion.request.get_json())  # noqa: E501
-    # we disallow merge to ensure immutability
-    # TODO all of this should become a procedure
-    sale = database.Sale.from_model(body)
+    try:
+        if connexion.request.is_json:
+            body = Sale.from_dict(connexion.request.get_json())  # noqa: E501
+        # we disallow merge to ensure immutability
+        # TODO all of this should become a procedure
+        sale = database.Sale.from_model(body)
 
-    if sale.quantity <= 0:
-        return {"err": "Quantity cannot be zero"}, 400
-    # check salesperson is still active
-    # it is okay if the sale is their last day of work
-    salesperson_id = db.session.query(database.Salesperson.id).filter(
-        database.Salesperson.id == sale.salesperson_id,
-        or_(database.Salesperson.end_date == None, database.Salesperson.end_date <= sale.sale_date)
-    ).scalar()
-    if salesperson_id is None:
-        return {"err": "Terminated salesperson cannot conduct sale"}, 400
+        if sale.quantity <= 0:
+            raise ValueError("Quantity cannot be zero")
+        # check salesperson is still active
+        # it is okay if the sale is their last day of work
+        salesperson_id = db.session.query(database.Salesperson.id).filter(
+            database.Salesperson.id == sale.salesperson_id,
+            or_(database.Salesperson.end_date == None, database.Salesperson.end_date <= sale.sale_date)
+        ).scalar()
+        if salesperson_id is None:
+            raise ValueError("Terminated salesperson cannot conduct sale")
+    except Exception as e:
+        return {"err": "Bad inputs: {}".format(e)}, 400
 
     # select for update, start lock
     # we need at least one product in stock
@@ -82,7 +85,6 @@ def create_sale(body=None):  # noqa: E501
     ).update(values={
         "quantity": database.Product.quantity - sale.quantity,
     })
-    app.logger.debug(rows)
     if rows == 0:
         db.session.rollback()
         return {"err": "product not in stock"}, 400

@@ -60,16 +60,18 @@ def update_sales_person(body=None):  # noqa: E501
 
     :rtype: Salesperson
     """
-    if connexion.request.is_json:
-        body = Salesperson.from_dict(connexion.request.get_json())  # noqa: E501
-    if not body:
-        return {}, 400
     try:
+        if connexion.request.is_json:
+            body = Salesperson.from_dict(connexion.request.get_json())  # noqa: E501
+        if not body:
+            return {}, 400
         person = database.Salesperson.from_model(body)
+        if person.end_date and person.begin_date > person.end_date:
+            raise ValueError("Begin date cannot be after end date")
+        db.session.merge(person)
+        db.session.commit()
     except Exception as e:
         return {"err": "Bad inputs, exc: {}".format(repr(e))}, 400
-    db.session.merge(person)
-    db.session.commit()
     return person.to_model()
 
 

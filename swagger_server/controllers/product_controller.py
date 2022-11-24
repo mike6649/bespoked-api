@@ -46,15 +46,18 @@ def update_product(body=None):  # noqa: E501
 
     :rtype: Product
     """
-    if connexion.request.is_json:
-        body = Product.from_dict(connexion.request.get_json())  # noqa: E501
-    if not body:
-        return {}, 400
+
     try:
+        if connexion.request.is_json:
+            body = Product.from_dict(connexion.request.get_json())  # noqa: E501
+        if not body:
+            return {}, 400
         product = database.Product.from_model(body)
+        if product.sale_price <= 0 or product.purchase_price <= 0:
+            raise ValueError("Price must be postive")
+        db.session.merge(product)
+        db.session.commit()
     except Exception as e:
         return {"err": "Bad inputs, exc: {}".format(repr(e))}, 400
-    db.session.merge(product)
-    db.session.commit()
-    return product.to_model()
 
+    return product.to_model()

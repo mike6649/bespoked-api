@@ -5,7 +5,7 @@ from swagger_server.models.customer import Customer  # noqa: E501
 from swagger_server import util
 from swagger_server.models import database
 from swagger_server.models.database import db
-from flask import current_app as app
+from datetime import date
 
 
 def get_customer_by_id(id_):  # noqa: E501
@@ -51,14 +51,16 @@ def update_customer(body=None):  # noqa: E501
 
     :rtype: Customer
     """
-    if connexion.request.is_json:
-        body = Customer.from_dict(connexion.request.get_json())  # noqa: E501
-    if not body:
-        return {}, 400
     try:
+        if connexion.request.is_json:
+            body = Customer.from_dict(connexion.request.get_json())  # noqa: E501
+        if not body:
+            return {}, 400
         customer = database.Customer.from_model(body)
+        if customer.begin_date > date.today():
+            raise ValueError("Customer begin date is not current")
+        db.session.merge(customer)
+        db.session.commit()
     except Exception as e:
         return {"err": "Bad inputs, exc: {}".format(repr(e))}, 400
-    db.session.merge(customer)
-    db.session.commit()
     return customer.to_model()
