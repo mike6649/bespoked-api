@@ -13,8 +13,8 @@ def get_product_by_id(id_):  # noqa: E501
 
      # noqa: E501
 
-    :param id: Product ID
-    :type id: str
+    :param id_: Product ID
+    :type id_: str
 
     :rtype: Product
     """
@@ -32,8 +32,7 @@ def get_products():  # noqa: E501
 
     :rtype: List[Product]
     """
-    filters = []  # TODO
-    query = db.session.query(database.Product).filter(*filters)
+    query = db.session.query(database.Product)
     return [p.to_model() for p in query]
 
 

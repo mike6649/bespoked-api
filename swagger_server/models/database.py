@@ -1,6 +1,8 @@
 from decimal import Decimal
 
-from sqlalchemy import Column, Integer, String, Numeric, BigInteger, Date, TIMESTAMP
+from sqlalchemy import Column, Integer, String, Numeric, BigInteger, Date, TIMESTAMP, ForeignKey
+from sqlalchemy.orm import relationship
+
 from swagger_server import models
 from swagger_server import db
 
@@ -119,11 +121,15 @@ class Customer(db.Model):
 class Sale(db.Model):
     __tablename__ = 'sale'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    product_id = Column(Integer)
-    customer_id = Column(Integer)
-    salesperson_id = Column(Integer)
+    product_id = Column(Integer, ForeignKey("product.id"))
+    customer_id = Column(Integer, ForeignKey("customer.id"))
+    salesperson_id = Column(Integer, ForeignKey("salesperson.id"))
     sale_date = Column(Date)
     quantity = Column(Integer)
+
+    product = relationship("Product")
+    customer = relationship("Customer")
+    salesperson = relationship("Salesperson")
 
     # noinspection PyTypeChecker
     def to_model(self):
@@ -134,6 +140,17 @@ class Sale(db.Model):
             quantity=self.quantity,
             product_id=self.product_id,
             customer_id=self.customer_id,
+        )
+
+    # noinspection PyTypeChecker
+    def to_detailed_model(self):
+        return models.DetailedSale(
+            id=self.id,
+            salesperson=self.salesperson.to_model(),
+            sale_date=self.sale_date,
+            quantity=self.quantity,
+            product=self.product.to_model(),
+            customer=self.customer.to_model(),
         )
 
     @classmethod

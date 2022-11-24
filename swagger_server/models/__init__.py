@@ -6,4 +6,5 @@ from __future__ import absolute_import
 from swagger_server.models.customer import Customer
 from swagger_server.models.product import Product
 from swagger_server.models.sale import Sale
+from swagger_server.models.detailed_sale import DetailedSale
 from swagger_server.models.salesperson import Salesperson

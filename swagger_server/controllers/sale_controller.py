@@ -23,24 +23,28 @@ def get_sale_by_id(id_):  # noqa: E501
     sale = db.session.query(database.Sale).filter_by(id=id_).scalar()
     if sale is None:
         return {}, 404
-    return sale.to_model()
+    return sale.to_detailed_model()
 
 
-def get_sales(customer_id=None):  # noqa: E501
+def get_sales(begin_date=None, end_date=None):  # noqa: E501
     """Get list of sales
 
     Get list of sales # noqa: E501
 
-    :param customer_id: Customer ID
-    :type customer_id: str
+    :param begin_date: Begin Date
+    :type begin_date: str
+    :param end_date: End Date
+    :type end_date: str
 
-    :rtype: List[Sale]
+    :rtype: List[DetailedSale]
     """
     filters = []
-    if customer_id:
-        filters.append(database.Sale.customer_id == customer_id)
+    if begin_date:
+        filters.append(database.Sale.sale_date >= begin_date)
+    if end_date:
+        filters.append(database.Sale.sale_date <= end_date)
     query = db.session.query(database.Sale).filter(*filters)
-    return [p.to_model() for p in query]
+    return [p.to_detailed_model() for p in query]
 
 
 def create_sale(body=None):  # noqa: E501
@@ -59,6 +63,8 @@ def create_sale(body=None):  # noqa: E501
     # TODO all of this should become a procedure
     sale = database.Sale.from_model(body)
 
+    if not sale.quantity:
+        return {"err": "Quantity cannot be zero"}, 400
     # check salesperson is still active
     # it is okay if the sale is their last day of work
     salesperson_id = db.session.query(database.Salesperson.id).filter(
@@ -81,7 +87,7 @@ def create_sale(body=None):  # noqa: E501
         db.session.rollback()
         return {"err": "product not in stock"}, 400
 
-    # TODO is there any other business logic stopping us from completing the sale?Ï
+    # TODO is there any other business logic stopping us from completing the sale?
     db.session.add(sale)
     db.session.commit()
     return sale.to_model()
