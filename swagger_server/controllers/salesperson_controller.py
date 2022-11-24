@@ -114,7 +114,7 @@ def quarterly_report(id_, year, quarter):  # noqa: E501
         database.Discount,
         and_(
             database.Sale.product_id == database.Discount.product_id,
-            database.Sale.sale_date.betwee(database.Discount.begin_date, database.Discount.end_date)
+            database.Sale.sale_date.between(database.Discount.begin_date, database.Discount.end_date)
         ),
         isouter=True).filter(
         database.Sale.salesperson_id == id_,
