@@ -50,7 +50,10 @@ def update_product(body=None):  # noqa: E501
         body = Product.from_dict(connexion.request.get_json())  # noqa: E501
     if not body:
         return {}, 400
-    product = database.Product.from_model(body)
+    try:
+        product = database.Product.from_model(body)
+    except Exception as e:
+        return {"err": "Bad inputs, exc: {}".format(repr(e))}, 400
     db.session.merge(product)
     db.session.commit()
     return product.to_model()

@@ -55,7 +55,10 @@ def update_customer(body=None):  # noqa: E501
         body = Customer.from_dict(connexion.request.get_json())  # noqa: E501
     if not body:
         return {}, 400
-    customer = database.Customer.from_model(body)
+    try:
+        customer = database.Customer.from_model(body)
+    except Exception as e:
+        return {"err": "Bad inputs, exc: {}".format(repr(e))}, 400
     db.session.merge(customer)
     db.session.commit()
     return customer.to_model()

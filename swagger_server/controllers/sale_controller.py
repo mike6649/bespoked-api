@@ -63,7 +63,7 @@ def create_sale(body=None):  # noqa: E501
     # TODO all of this should become a procedure
     sale = database.Sale.from_model(body)
 
-    if not sale.quantity:
+    if sale.quantity <= 0:
         return {"err": "Quantity cannot be zero"}, 400
     # check salesperson is still active
     # it is okay if the sale is their last day of work

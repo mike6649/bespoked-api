@@ -64,7 +64,10 @@ def update_sales_person(body=None):  # noqa: E501
         body = Salesperson.from_dict(connexion.request.get_json())  # noqa: E501
     if not body:
         return {}, 400
-    person = database.Salesperson.from_model(body)
+    try:
+        person = database.Salesperson.from_model(body)
+    except Exception as e:
+        return {"err": "Bad inputs, exc: {}".format(repr(e))}, 400
     db.session.merge(person)
     db.session.commit()
     return person.to_model()
@@ -100,8 +103,11 @@ def quarterly_report(id_, year, quarter):  # noqa: E501
             e = date(yr + 1, 1, 1)
         return b, e
 
-    year = int(year)
-    quarter = int(quarter)
+    try:
+        year = int(year)
+        quarter = int(quarter)
+    except:
+        return {"err": "Bad inputs"}, 400
     if quarter not in range(1, 4 + 1):
         return {"err": "Not valid quarter"}, 400
     begin_date, end_date = year_quarter_to_daterange(year, quarter)
