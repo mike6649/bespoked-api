@@ -148,7 +148,7 @@ def quarterly_report(id_, year, quarter):  # noqa: E501
             customer=sale.customer.to_model(),
             sale_date=sale.sale_date,
             quantity=sale.quantity,
-            unit_price=str(unit_price),
+            unit_price=str(round(unit_price, 2)),
             commission_pct=str(sale.product.commission_pct),
             commission=str(round(commission, 2))
         ))
