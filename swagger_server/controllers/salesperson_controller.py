@@ -71,6 +71,7 @@ def update_sales_person(body=None):  # noqa: E501
         db.session.merge(person)
         db.session.commit()
     except Exception as e:
+        db.session.rollback()
         return {"err": "Bad inputs, exc: {}".format(repr(e))}, 400
     return person.to_model()
 

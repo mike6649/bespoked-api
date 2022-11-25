@@ -62,5 +62,6 @@ def update_customer(body=None):  # noqa: E501
         db.session.merge(customer)
         db.session.commit()
     except Exception as e:
+        db.session.rollback()
         return {"err": "Bad inputs, exc: {}".format(repr(e))}, 400
     return customer.to_model()
