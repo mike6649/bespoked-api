@@ -79,17 +79,21 @@ def create_sale(body=None):  # noqa: E501
 
     # select for update, start lock
     # we need at least one product in stock
-    rows = db.session.query(database.Product).filter(
-        database.Product.id == sale.product_id,
-        database.Product.quantity >= sale.quantity,
-    ).update(values={
-        "quantity": database.Product.quantity - sale.quantity,
-    })
-    if rows == 0:
-        db.session.rollback()
-        return {"err": "product not in stock"}, 400
+    try:
+        rows = db.session.query(database.Product).filter(
+            database.Product.id == sale.product_id,
+            database.Product.quantity >= sale.quantity,
+        ).update(values={
+            "quantity": database.Product.quantity - sale.quantity,
+        })
+        if rows == 0:
+            db.session.rollback()
+            return {"err": "product not in stock"}, 400
 
-    # TODO is there any other business logic stopping us from completing the sale?
-    db.session.add(sale)
-    db.session.commit()
+        # TODO is there any other business logic stopping us from completing the sale?
+        db.session.add(sale)
+        db.session.commit()
+    except:
+        db.session.rollback()
+        raise
     return sale.to_model()
